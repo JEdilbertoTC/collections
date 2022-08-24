@@ -1,34 +1,31 @@
-package ArrayList;
+package arrayList;
 
-import List.List;
+import iterator.Iterator;
+import list.List;
 
 import java.util.Arrays;
-import java.util.Iterator;
 
 public class ArrayList<T> implements List<T> {
 
-    private final Object[] array;
+    private T[] array;
     private int size;
-    private int length;
+    private int capacity;
 
+    @SuppressWarnings("unchecked")
     public ArrayList() {
         size = 0;
-        length = 20;
-        array = new Object[length];
+        capacity = 20;
+        array = (T[]) new Object[capacity];
     }
 
-    public void setLength(int length) {
-        this.length = length;
-    }
-
-    public int getLength() {
-        return length;
+    public int getCapacity() {
+        return capacity;
     }
 
     public boolean add(T element) {
-
-        if (length == size) {
-            length += 10;
+        if (capacity == size) {
+            capacity += 10;
+            array = Arrays.copyOf(array, capacity);
         }
 
         array[size++] = element;
@@ -36,7 +33,7 @@ public class ArrayList<T> implements List<T> {
     }
 
     public boolean remove(int index) {
-        if (index > size || index < 0) {
+        if (index >= size || index < 0) {
             throw new IndexOutOfBoundsException();
         }
 
@@ -46,15 +43,15 @@ public class ArrayList<T> implements List<T> {
     }
 
     public T getAt(int index) {
-        if (index > size || index < 0) {
+        if (index >= size || index < 0) {
             throw new IndexOutOfBoundsException();
         }
 
-        return (T) array[index];
+        return array[index];
     }
 
     public void setAt(int index, T element) {
-        if (index > size || index < 0) {
+        if (index >= size || index < 0) {
             throw new IndexOutOfBoundsException();
         }
 
@@ -76,7 +73,7 @@ public class ArrayList<T> implements List<T> {
     }
 
     public Iterator<T> iterator() {
-        return (Iterator<T>) Arrays.stream(array).iterator();
+        return new ArrayListIterator<>(array);
     }
 
 }

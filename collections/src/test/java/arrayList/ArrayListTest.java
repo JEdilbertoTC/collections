@@ -1,16 +1,15 @@
-package ArrayList;
+package arrayList;
 
+import iterator.Iterator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.util.Iterator;
 
 public class ArrayListTest {
 
     @Test
     public void givenAnEmptyList_whenSize_thenZeroIsReturned() {
         // Given:
-        ArrayList<String> arrayList = new ArrayList<String>();
+        ArrayList<String> arrayList = new ArrayList<>();
 
         // When:
         int size = arrayList.size();
@@ -23,7 +22,7 @@ public class ArrayListTest {
     @Test
     public void givenAListWithTwoElements_whenSize_thenTwoIsReturned() {
         // Given:
-        ArrayList<String> arrayList = new ArrayList<String>();
+        ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add("1");
         arrayList.add("2");
 
@@ -38,7 +37,7 @@ public class ArrayListTest {
     @Test
     public void givenAList_whenAdd_thenItemIsAdded() {
         // Given:
-        ArrayList<String> arrayList = new ArrayList<String>();
+        ArrayList<String> arrayList = new ArrayList<>();
 
         // When:
         // Then:
@@ -47,24 +46,23 @@ public class ArrayListTest {
     }
 
     @Test
-    public void givenALength_whenAdd_thenIncreasedAutomaticallyLength() {
+    public void givenAListWithTwentyElements_whenAdd_thenIncreasedAutomaticallyLength() {
         // Given:
-        ArrayList<String> arrayList = new ArrayList<String>();
-        arrayList.setLength(1);
+        ArrayList<String> arrayList = new ArrayList<>();
 
         // When:
-
-        arrayList.add("1");
-        arrayList.add("2");
+        for (int i = 0; i <= 20; i++) {
+            arrayList.add("" + i);
+        }
 
         // Then:
-        Assertions.assertThat(arrayList.getLength()).isEqualTo(11);
+        Assertions.assertThat(arrayList.getCapacity()).isEqualTo(30);
     }
 
     @Test
     public void givenAWrongIndex_whenRemove_thenIndexOutOfBoundsExceptionIsThrown() {
         // Given:
-        ArrayList<String> arrayList = new ArrayList<String>();
+        ArrayList<String> arrayList = new ArrayList<>();
 
         // When:
         // Then:
@@ -75,7 +73,7 @@ public class ArrayListTest {
     @Test
     public void givenACorrectIndex_whenRemove_thenItemIsRemoved() {
         // Given:
-        ArrayList<String> arrayList = new ArrayList<String>();
+        ArrayList<String> arrayList = new ArrayList<>();
 
         arrayList.add("1");
 
@@ -88,7 +86,7 @@ public class ArrayListTest {
     @Test
     public void givenAWrongIndex_whenGetAt_thenIndexOutOfBoundsExceptionIsThrown() {
         // Given:
-        ArrayList<String> arrayList = new ArrayList<String>();
+        ArrayList<String> arrayList = new ArrayList<>();
 
         // When:
         // Then:
@@ -99,7 +97,7 @@ public class ArrayListTest {
     @Test
     public void givenACorrectIndex_whenGetAt_thenItemIsReturned() {
         // Given:
-        ArrayList<String> arrayList = new ArrayList<String>();
+        ArrayList<String> arrayList = new ArrayList<>();
 
         arrayList.add("1");
 
@@ -113,7 +111,7 @@ public class ArrayListTest {
     @Test
     public void givenAWrongIndex_whenSetAt_thenIndexOutOfBoundsExceptionIsThrown() {
         // Given:
-        ArrayList<String> arrayList = new ArrayList<String>();
+        ArrayList<String> arrayList = new ArrayList<>();
 
         // When:
         // Then:
@@ -124,7 +122,7 @@ public class ArrayListTest {
     @Test
     public void givenACorrectIndex_whenSetAt_thenItemIsUpdated() {
         // Given:
-        ArrayList<String> arrayList = new ArrayList<String>();
+        ArrayList<String> arrayList = new ArrayList<>();
 
         arrayList.add("1");
 
@@ -138,7 +136,7 @@ public class ArrayListTest {
     @Test
     public void givenAnElementThatIsNotInTheList_whenContains_thenFalseIsReturned() {
         // Given:
-        ArrayList<String> arrayList = new ArrayList<String>();
+        ArrayList<String> arrayList = new ArrayList<>();
 
         // When:
         boolean isContained = arrayList.contains("one");
@@ -150,7 +148,7 @@ public class ArrayListTest {
     @Test
     public void givenAnElementThatIsInTheList_whenContains_thenTrueIsReturned() {
         // Given:
-        ArrayList<String> arrayList = new ArrayList<String>();
+        ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add("one");
 
         // When:
@@ -163,13 +161,14 @@ public class ArrayListTest {
     @Test
     public void whenIterator_thenIteratorIsReturned() {
         // Given:
-        ArrayList<String> arrayList = new ArrayList<String>();
+        ArrayList<String> arrayList = new ArrayList<>();
 
         // When:
         Iterator<String> iterator = arrayList.iterator();
 
         // Then:
         Assertions.assertThat(iterator).isNotNull();
+        Assertions.assertThat(iterator.hasNext()).isFalse();
         Assertions.assertThat(iterator.next()).isNull();
     }
 

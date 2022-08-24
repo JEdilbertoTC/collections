@@ -1,6 +1,6 @@
-package List;
+package list;
 
-import java.util.Iterator;
+import iterator.Iterator;
 
 public interface List<T> {
     boolean add(T element);

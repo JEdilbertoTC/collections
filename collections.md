@@ -20,13 +20,13 @@ Tras completar este ejercicio se habrá practicado:
 
 Las colecciones a implementar serán:
 
-- List
-  - LinkedList
-  - ArrayList
+- list
+  - linkedList
+  - arrayList
 - Set
   - HashSet
   - TreeSet (Comparator - Comparable)
-  - LinkedHashSet (Herencia[HashSet] - Composición[LinkedList])
+  - LinkedHashSet (Herencia[HashSet] - Composición[linkedList])
 - Map
   - HashMap
   - TreeMap

@@ -1,16 +1,15 @@
-package LinkedList;
+package linkedList;
 
+import iterator.Iterator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.util.Iterator;
 
 public class LinkedListTest {
 
     @Test
     public void givenAnEmptyList_whenSize_thenZeroIsReturned() {
         // Given:
-        LinkedList<Integer> linkedList = new LinkedList<Integer>();
+        LinkedList<Integer> linkedList = new LinkedList<>();
 
         // When:
 
@@ -23,7 +22,7 @@ public class LinkedListTest {
     @Test
     public void givenAListWithTwoElements_whenSize_thenTwoIsReturned() {
         // Given:
-        LinkedList<Integer> linkedList = new LinkedList<Integer>();
+        LinkedList<Integer> linkedList = new LinkedList<>();
         linkedList.add(1);
         linkedList.add(2);
 
@@ -37,7 +36,7 @@ public class LinkedListTest {
     @Test
     public void givenAWrongIndex_whenRemove_thenIndexOutOfBoundsException() {
         // Given:
-        LinkedList<Integer> linkedList = new LinkedList<Integer>();
+        LinkedList<Integer> linkedList = new LinkedList<>();
 
         // When:
         // Then:
@@ -46,9 +45,9 @@ public class LinkedListTest {
     }
 
     @Test
-    public void givenAZeroIndex_whenRemove_thenFirstItemIsRemoved() {
+    public void givenAFirstIndex_whenRemove_thenFirstItemIsRemoved() {
         // Given:
-        LinkedList<Integer> linkedList = new LinkedList<Integer>();
+        LinkedList<Integer> linkedList = new LinkedList<>();
 
         linkedList.add(1);
         linkedList.add(2);
@@ -66,7 +65,7 @@ public class LinkedListTest {
     @Test
     public void givenALastIndex_whenRemove_thenLastItemIsRemoved() {
         // Given:
-        LinkedList<Integer> linkedList = new LinkedList<Integer>();
+        LinkedList<Integer> linkedList = new LinkedList<>();
 
         linkedList.add(1);
         linkedList.add(2);
@@ -86,7 +85,7 @@ public class LinkedListTest {
     @Test
     public void givenAMiddleIndexWithAListWithThreeElements_whenRemove_thenItemIsRemoved() {
         // Given:
-        LinkedList<Integer> linkedList = new LinkedList<Integer>();
+        LinkedList<Integer> linkedList = new LinkedList<>();
 
         linkedList.add(1);
         linkedList.add(2);
@@ -104,7 +103,7 @@ public class LinkedListTest {
     @Test
     public void givenATwoIndexWithAListWithFourElements_whenRemove_thenItemIsRemoved() {
         // Given:
-        LinkedList<Integer> linkedList = new LinkedList<Integer>();
+        LinkedList<Integer> linkedList = new LinkedList<>();
 
         linkedList.add(1);
         linkedList.add(2);
@@ -124,7 +123,7 @@ public class LinkedListTest {
     @Test
     public void givenIndexOneWithAListWithFourElements_whenRemove_thenItemIsRemoved() {
         // Given:
-        LinkedList<Integer> linkedList = new LinkedList<Integer>();
+        LinkedList<Integer> linkedList = new LinkedList<>();
 
         linkedList.add(1);
         linkedList.add(2);
@@ -144,7 +143,7 @@ public class LinkedListTest {
     @Test
     public void givenAListWithOutElements_whenGetAt_thenIndexOutOfBoundsExceptionIsThrown() {
         // Given:
-        LinkedList<Integer> linkedList = new LinkedList<Integer>();
+        LinkedList<Integer> linkedList = new LinkedList<>();
 
         // When:
         // Then:
@@ -155,7 +154,7 @@ public class LinkedListTest {
     @Test
     public void givenAListWithOneElement_whenGetAt_thenElementIsReturned() {
         // Given:
-        LinkedList<Integer> linkedList = new LinkedList<Integer>();
+        LinkedList<Integer> linkedList = new LinkedList<>();
         linkedList.add(1);
 
         // When:
@@ -168,7 +167,7 @@ public class LinkedListTest {
     @Test
     public void givenAListWithoutElements_whenSetAt_thenIndexOutOfBoundsExceptionIsThrown() {
         // Given:
-        LinkedList<Integer> linkedList = new LinkedList<Integer>();
+        LinkedList<Integer> linkedList = new LinkedList<>();
 
         // When:
         // Then:
@@ -179,7 +178,7 @@ public class LinkedListTest {
     @Test
     public void givenAListWithOneElement_whenSetAt_thenFindElementAndUpdate() {
         // Given:
-        LinkedList<Integer> linkedList = new LinkedList<Integer>();
+        LinkedList<Integer> linkedList = new LinkedList<>();
 
         linkedList.add(1);
 
@@ -193,22 +192,23 @@ public class LinkedListTest {
     @Test
     public void givenAListWithTwoElements_whenSetAt_thenFindElementAndUpdate() {
         // Given:
-        LinkedList<Integer> linkedList = new LinkedList<Integer>();
+        LinkedList<Integer> linkedList = new LinkedList<>();
 
         linkedList.add(1);
         linkedList.add(2);
 
         // When:
 
-        linkedList.setAt(1, 0);
+        linkedList.setAt(1, 3);
         // Then:
-        Assertions.assertThat(linkedList.getAt(1)).isEqualTo(0);
+        Assertions.assertThat(linkedList.getAt(0)).isEqualTo(1);
+        Assertions.assertThat(linkedList.getAt(1)).isEqualTo(3);
     }
 
     @Test
     public void givenAListWithTwoElements_whenContains_thenFindAndReturnTrue() {
         // Given:
-        LinkedList<Integer> linkedList = new LinkedList<Integer>();
+        LinkedList<Integer> linkedList = new LinkedList<>();
 
         linkedList.add(1);
         linkedList.add(2);
@@ -223,7 +223,7 @@ public class LinkedListTest {
     @Test
     public void givenAListWithTwoElements_whenContains_thenFindAndReturnFalse() {
         // Given:
-        LinkedList<Integer> linkedList = new LinkedList<Integer>();
+        LinkedList<Integer> linkedList = new LinkedList<>();
 
         linkedList.add(1);
         linkedList.add(2);
@@ -236,9 +236,25 @@ public class LinkedListTest {
     }
 
     @Test
+    public void givenAListWitThreeElements_whenContains_thenFindAndReturnTrue() {
+        // Given:
+        LinkedList<Integer> linkedList = new LinkedList<>();
+
+        linkedList.add(1);
+        linkedList.add(2);
+        linkedList.add(3);
+
+        // When:
+        boolean isContained = linkedList.contains(2);
+
+        // Then:
+        Assertions.assertThat(isContained).isTrue();
+    }
+
+    @Test
     public void whenIterator_thenIteratorIsReturned() {
         // Given:
-        LinkedList<Integer> linkedList = new LinkedList<Integer>();
+        LinkedList<Integer> linkedList = new LinkedList<>();
 
         linkedList.add(1);
         linkedList.add(2);
