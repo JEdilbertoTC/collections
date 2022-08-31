@@ -34,6 +34,22 @@ public class LinkedListTest {
     }
 
     @Test
+    public void givenAListWithTwoElements_whenGetAt_thenTwoIsReturned() {
+        // Given:
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        linkedList.add(1);
+        linkedList.add(2);
+
+        // When:
+        int size = linkedList.size();
+
+        // Then:
+        Assertions.assertThat(size).isEqualTo(2);
+        Assertions.assertThat(linkedList.getAt(0)).isEqualTo(1);
+        Assertions.assertThat(linkedList.getAt(1)).isEqualTo(2);
+    }
+
+    @Test
     public void givenAWrongIndex_whenRemove_thenIndexOutOfBoundsException() {
         // Given:
         LinkedList<Integer> linkedList = new LinkedList<>();
@@ -131,17 +147,17 @@ public class LinkedListTest {
         linkedList.add(4);
 
         // When:
-        linkedList.remove(1);
+        linkedList.remove(2);
 
         // Then:
         Assertions.assertThat(linkedList.size()).isEqualTo(3);
         Assertions.assertThat(linkedList.getAt(0)).isEqualTo(1);
-        Assertions.assertThat(linkedList.getAt(1)).isEqualTo(3);
+        Assertions.assertThat(linkedList.getAt(1)).isEqualTo(2);
         Assertions.assertThat(linkedList.getAt(2)).isEqualTo(4);
     }
 
     @Test
-    public void givenAListWithOutElements_whenGetAt_thenIndexOutOfBoundsExceptionIsThrown() {
+    public void givenAListWithoutElements_whenGetAt_thenIndexOutOfBoundsExceptionIsThrown() {
         // Given:
         LinkedList<Integer> linkedList = new LinkedList<>();
 
@@ -256,6 +272,18 @@ public class LinkedListTest {
         // Given:
         LinkedList<Integer> linkedList = new LinkedList<>();
 
+        // When:
+        Iterator<Integer> iterator = linkedList.iterator();
+
+        // Then:
+        Assertions.assertThat(iterator).isNotNull();
+        Assertions.assertThat(iterator.hasNext()).isFalse();
+    }
+
+    @Test
+    public void whenAListWithTwoElements_thenIteratorIsReturned() {
+        // Given:
+        LinkedList<Integer> linkedList = new LinkedList<>();
         linkedList.add(1);
         linkedList.add(2);
 
@@ -264,5 +292,54 @@ public class LinkedListTest {
 
         // Then:
         Assertions.assertThat(iterator).isNotNull();
+        Assertions.assertThat(linkedList.size()).isEqualTo(2);
+
+        Assertions.assertThat(iterator.hasNext()).isTrue();
+        Assertions.assertThat(iterator.next()).isEqualTo(1);
+
+        Assertions.assertThat(iterator.hasNext()).isTrue();
+        Assertions.assertThat(iterator.next()).isEqualTo(2);
+
+        Assertions.assertThat(iterator.hasNext()).isFalse();
+        Assertions.assertThat(linkedList.size()).isEqualTo(2);
+
+    }
+
+    @Test
+    public void whenReverseIterator_thenReverseIteratorIsReturned() {
+        // Given:
+        LinkedList<Integer> linkedList = new LinkedList<>();
+
+        // When:
+        Iterator<Integer> iterator = linkedList.reverseIterator();
+
+        // Then:
+        Assertions.assertThat(iterator).isNotNull();
+        Assertions.assertThat(iterator.hasNext()).isFalse();
+    }
+
+    @Test
+    public void whenAListWithTwoElements_thenReverseIteratorIsReturned() {
+        // Given:
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        linkedList.add(1);
+        linkedList.add(2);
+
+        // When:
+        Iterator<Integer> iterator = linkedList.reverseIterator();
+
+        // Then:
+        Assertions.assertThat(iterator).isNotNull();
+        Assertions.assertThat(linkedList.size()).isEqualTo(2);
+
+        Assertions.assertThat(iterator.hasNext()).isTrue();
+        Assertions.assertThat(iterator.next()).isEqualTo(2);
+
+        Assertions.assertThat(iterator.hasNext()).isTrue();
+        Assertions.assertThat(iterator.next()).isEqualTo(1);
+
+        Assertions.assertThat(iterator.hasNext()).isFalse();
+        Assertions.assertThat(linkedList.size()).isEqualTo(2);
+
     }
 }

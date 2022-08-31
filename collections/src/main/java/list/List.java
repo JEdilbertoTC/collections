@@ -16,4 +16,6 @@ public interface List<T> {
     int size();
 
     Iterator<T> iterator();
+
+    Iterator<T> reverseIterator();
 }

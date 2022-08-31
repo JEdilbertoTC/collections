@@ -7,6 +7,21 @@ import java.util.Arrays;
 
 public class ArrayList<T> implements List<T> {
 
+    private class ReverseIterator implements Iterator<T> {
+
+        private int currentIndex = size - 1;
+
+        @Override
+        public boolean hasNext() {
+            return currentIndex >= 0;
+        }
+
+        @Override
+        public T next() {
+            return array[currentIndex--];
+        }
+    }
+
     private T[] array;
     private int size;
     private int capacity;
@@ -73,7 +88,12 @@ public class ArrayList<T> implements List<T> {
     }
 
     public Iterator<T> iterator() {
-        return new ArrayListIterator<>(array);
+        return new ArrayListIterator<>(this);
+    }
+
+    @Override
+    public Iterator<T> reverseIterator() {
+        return new ReverseIterator();
     }
 
 }

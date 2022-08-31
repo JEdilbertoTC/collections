@@ -169,7 +169,67 @@ public class ArrayListTest {
         // Then:
         Assertions.assertThat(iterator).isNotNull();
         Assertions.assertThat(iterator.hasNext()).isFalse();
-        Assertions.assertThat(iterator.next()).isNull();
+    }
+
+    @Test
+    public void whenAnArrayListWithTwoElements_thenIteratorIsReturned() {
+        // Given:
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add("1");
+        arrayList.add("2");
+
+        // When:
+        Iterator<String> iterator = arrayList.iterator();
+
+        // Then:
+        Assertions.assertThat(iterator).isNotNull();
+        Assertions.assertThat(arrayList.size()).isEqualTo(2);
+
+        Assertions.assertThat(iterator.hasNext()).isTrue();
+        Assertions.assertThat(iterator.next()).isEqualTo("1");
+
+        Assertions.assertThat(iterator.hasNext()).isTrue();
+        Assertions.assertThat(iterator.next()).isEqualTo("2");
+
+        Assertions.assertThat(iterator.hasNext()).isFalse();
+        Assertions.assertThat(arrayList.size()).isEqualTo(2);
+    }
+
+    @Test
+    public void whenReverseIterator_thenReverseIteratorIsReturned() {
+        // Given:
+        ArrayList<String> arrayList = new ArrayList<>();
+
+        // When:
+        Iterator<String> iterator = arrayList.reverseIterator();
+
+        // Then:
+        Assertions.assertThat(iterator).isNotNull();
+        Assertions.assertThat(iterator.hasNext()).isFalse();
+    }
+
+    @Test
+    public void whenAnArrayListWithTwoElements_thenReverseIteratorIsReturned() {
+        // Given:
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add("1");
+        arrayList.add("2");
+
+        // When:
+        Iterator<String> iterator = arrayList.reverseIterator();
+
+        // Then:
+        Assertions.assertThat(iterator).isNotNull();
+        Assertions.assertThat(arrayList.size()).isEqualTo(2);
+
+        Assertions.assertThat(iterator.hasNext()).isTrue();
+        Assertions.assertThat(iterator.next()).isEqualTo("2");
+
+        Assertions.assertThat(iterator.hasNext()).isTrue();
+        Assertions.assertThat(iterator.next()).isEqualTo("1");
+
+        Assertions.assertThat(iterator.hasNext()).isFalse();
+        Assertions.assertThat(arrayList.size()).isEqualTo(2);
     }
 
 }

@@ -4,21 +4,21 @@ import iterator.Iterator;
 
 class ArrayListIterator<T> implements Iterator<T> {
 
-    private final T[] array;
+    private final ArrayList<T> array;
     private int current;
 
-    ArrayListIterator(T[] array) {
+    ArrayListIterator(ArrayList<T> array) {
         current = 0;
         this.array = array;
     }
 
     @Override
     public boolean hasNext() {
-        return array[current + 1] != null;
+        return current <= array.size() - 1;
     }
 
     @Override
-    public Object next() {
-        return array[current++];
+    public T next() {
+        return array.getAt(current++);
     }
 }

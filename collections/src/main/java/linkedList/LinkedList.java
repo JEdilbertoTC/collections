@@ -3,13 +3,34 @@ package linkedList;
 import iterator.Iterator;
 import list.List;
 
-import java.util.ArrayList;
-
 public class LinkedList<T> implements List<T> {
+
+    private class ReverseIterator implements Iterator<T> {
+
+        private Node<T> currentNode;
+
+        private int currentIndex = size - 1;
+
+        ReverseIterator(Node<T> tail) {
+            currentNode = tail;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return currentIndex >= 0;
+        }
+
+        @Override
+        public T next() {
+            T currentValue = currentNode.value;
+            currentNode = currentNode.previous;
+            currentIndex--;
+            return currentValue;
+        }
+    }
 
     private int size;
     private Node<T> head;
-
     private Node<T> tail;
 
     public LinkedList() {
@@ -27,7 +48,21 @@ public class LinkedList<T> implements List<T> {
             return true;
         }
 
-        tail.next = newNode;
+        if (head.next == null) {
+            head.next = newNode;
+            newNode.previous = head;
+            tail = newNode;
+            size++;
+            return true;
+        }
+
+        Node<T> current = head;
+        while (current.next != null) {
+            current = current.next;
+        }
+
+        current.next = newNode;
+        newNode.previous = current;
         tail = newNode;
         size++;
 
@@ -46,19 +81,19 @@ public class LinkedList<T> implements List<T> {
             return removeFirst();
         }
 
-        Node<T> aux = head;
-        Node<T> previous = head;
+        Node<T> current = head;
         int count = 0;
-        while (aux.next != null) {
+        boolean inserted = false;
+        while (current.next != null) {
             if (index == count) {
-                return removeInMiddle(previous, aux);
+                inserted = removeInMiddle(current);
+                break;
             }
 
             count++;
-            previous = aux;
-            aux = aux.next;
+            current = current.next;
         }
-        return false;
+        return inserted;
     }
 
     @Override
@@ -67,16 +102,18 @@ public class LinkedList<T> implements List<T> {
 
         int count = 0;
         Node<T> aux = head;
+        T value = null;
 
         while (aux != null) {
             if (count == index) {
-                return aux.value;
+                value = aux.value;
+                break;
             }
             count++;
             aux = aux.next;
         }
+        return value;
 
-        return null;
     }
 
     @Override
@@ -116,7 +153,12 @@ public class LinkedList<T> implements List<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return new LinkedListIterator<>(head);
+        return new LinkedListIterator<>(head, this);
+    }
+
+    @Override
+    public Iterator<T> reverseIterator() {
+        return new ReverseIterator(tail);
     }
 
     private void indexOutOfBounds(int index) {
@@ -126,19 +168,22 @@ public class LinkedList<T> implements List<T> {
     }
 
     private boolean removeLast() {
-        tail = null;
+        tail = tail.previous;
+        tail.next = null;
         size--;
         return true;
     }
 
     private boolean removeFirst() {
         head = head.next;
+        head.previous = null;
         size--;
         return true;
     }
 
-    private boolean removeInMiddle(Node<T> previous, Node<T> aux) {
-        previous.next = aux.next;
+    private boolean removeInMiddle(Node<T> current) {
+        current.previous.next = current.next;
+        current.next.previous = current.previous;
         size--;
         return true;
     }
