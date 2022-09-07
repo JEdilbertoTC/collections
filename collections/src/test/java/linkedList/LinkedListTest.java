@@ -57,7 +57,8 @@ public class LinkedListTest {
         // When:
         // Then:
         Assertions.assertThatThrownBy(() -> linkedList.remove(-1))
-                .isInstanceOf(IndexOutOfBoundsException.class);
+                .isInstanceOf(IndexOutOfBoundsException.class)
+                .hasMessage("index -1 out of bounds");
     }
 
     @Test
@@ -87,7 +88,7 @@ public class LinkedListTest {
         linkedList.add(2);
         linkedList.add(3);
 
-        int lastIndex = linkedList.size() - 1;
+        int lastIndex = 2;
 
         // When:
         linkedList.remove(lastIndex);
@@ -118,26 +119,6 @@ public class LinkedListTest {
 
     @Test
     public void givenATwoIndexWithAListWithFourElements_whenRemove_thenItemIsRemoved() {
-        // Given:
-        LinkedList<Integer> linkedList = new LinkedList<>();
-
-        linkedList.add(1);
-        linkedList.add(2);
-        linkedList.add(3);
-        linkedList.add(4);
-
-        // When:
-        linkedList.remove(2);
-
-        // Then:
-        Assertions.assertThat(linkedList.size()).isEqualTo(3);
-        Assertions.assertThat(linkedList.getAt(0)).isEqualTo(1);
-        Assertions.assertThat(linkedList.getAt(1)).isEqualTo(2);
-        Assertions.assertThat(linkedList.getAt(2)).isEqualTo(4);
-    }
-
-    @Test
-    public void givenIndexOneWithAListWithFourElements_whenRemove_thenItemIsRemoved() {
         // Given:
         LinkedList<Integer> linkedList = new LinkedList<>();
 
@@ -302,7 +283,6 @@ public class LinkedListTest {
 
         Assertions.assertThat(iterator.hasNext()).isFalse();
         Assertions.assertThat(linkedList.size()).isEqualTo(2);
-
     }
 
     @Test
@@ -340,6 +320,5 @@ public class LinkedListTest {
 
         Assertions.assertThat(iterator.hasNext()).isFalse();
         Assertions.assertThat(linkedList.size()).isEqualTo(2);
-
     }
 }

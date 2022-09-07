@@ -6,22 +6,6 @@ import list.List;
 import java.util.Arrays;
 
 public class ArrayList<T> implements List<T> {
-
-    private class ReverseIterator implements Iterator<T> {
-
-        private int currentIndex = size - 1;
-
-        @Override
-        public boolean hasNext() {
-            return currentIndex >= 0;
-        }
-
-        @Override
-        public T next() {
-            return array[currentIndex--];
-        }
-    }
-
     private T[] array;
     private int size;
     private int capacity;
@@ -48,27 +32,27 @@ public class ArrayList<T> implements List<T> {
     }
 
     public boolean remove(int index) {
-        if (index >= size || index < 0) {
-            throw new IndexOutOfBoundsException();
-        }
+        checkIndexOutOfBounds(index);
 
         System.arraycopy(array, index + 1, array, index, size - index - 1);
 
         return true;
     }
 
-    public T getAt(int index) {
+    private void checkIndexOutOfBounds(int index) {
         if (index >= size || index < 0) {
-            throw new IndexOutOfBoundsException();
+            throw new IndexOutOfBoundsException(String.format("Index %d out of bounds", index));
         }
+    }
+
+    public T getAt(int index) {
+        checkIndexOutOfBounds(index);
 
         return array[index];
     }
 
     public void setAt(int index, T element) {
-        if (index >= size || index < 0) {
-            throw new IndexOutOfBoundsException();
-        }
+        checkIndexOutOfBounds(index);
 
         array[index] = element;
     }
@@ -93,7 +77,19 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public Iterator<T> reverseIterator() {
-        return new ReverseIterator();
+        return new Iterator<>() {
+            private int currentIndex = size - 1;
+
+            @Override
+            public boolean hasNext() {
+                return currentIndex >= 0;
+            }
+
+            @Override
+            public T next() {
+                return array[currentIndex--];
+            }
+        };
     }
 
 }

@@ -57,6 +57,9 @@ public class ArrayListTest {
 
         // Then:
         Assertions.assertThat(arrayList.getCapacity()).isEqualTo(30);
+        for (int i = 0; i < arrayList.size(); i++) {
+            Assertions.assertThat(arrayList.getAt(i)).isEqualTo("" + i);
+        }
     }
 
     @Test

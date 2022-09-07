@@ -5,26 +5,22 @@ import list.List;
 
 public class LinkedList<T> implements List<T> {
 
-    private class ReverseIterator implements Iterator<T> {
+    private static class ReverseIterator<H> implements Iterator<H> {
+        private Node<H> currentNode;
 
-        private Node<T> currentNode;
-
-        private int currentIndex = size - 1;
-
-        ReverseIterator(Node<T> tail) {
+        ReverseIterator(Node<H> tail) {
             currentNode = tail;
         }
 
         @Override
         public boolean hasNext() {
-            return currentIndex >= 0;
+            return currentNode != null;
         }
 
         @Override
-        public T next() {
-            T currentValue = currentNode.value;
+        public H next() {
+            H currentValue = currentNode.value;
             currentNode = currentNode.previous;
-            currentIndex--;
             return currentValue;
         }
     }
@@ -41,13 +37,14 @@ public class LinkedList<T> implements List<T> {
     public boolean add(T element) {
         Node<T> newNode = new Node<>(element);
 
-        if (head == null) {
-            head = newNode;
-            tail = newNode;
-            size++;
-            return true;
-        }
+        if (insertFirst(newNode)) return true;
 
+        if (insertInMiddle(newNode)) return true;
+
+        return insertLast(newNode);
+    }
+
+    private boolean insertInMiddle(Node<T> newNode) {
         if (head.next == null) {
             head.next = newNode;
             newNode.previous = head;
@@ -55,7 +52,10 @@ public class LinkedList<T> implements List<T> {
             size++;
             return true;
         }
+        return false;
+    }
 
+    private boolean insertLast(Node<T> newNode) {
         Node<T> current = head;
         while (current.next != null) {
             current = current.next;
@@ -69,9 +69,19 @@ public class LinkedList<T> implements List<T> {
         return true;
     }
 
+    private boolean insertFirst(Node<T> newNode) {
+        if (head == null) {
+            head = newNode;
+            tail = newNode;
+            size++;
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public boolean remove(int index) {
-        indexOutOfBounds(index);
+        checkIndexOutOfBounds(index);
 
         if (index == size - 1) {
             return removeLast();
@@ -81,12 +91,19 @@ public class LinkedList<T> implements List<T> {
             return removeFirst();
         }
 
+        return insertInMiddle(index);
+    }
+
+    private boolean insertInMiddle(int index) {
         Node<T> current = head;
         int count = 0;
         boolean inserted = false;
         while (current.next != null) {
             if (index == count) {
-                inserted = removeInMiddle(current);
+                current.previous.next = current.next;
+                current.next.previous = current.previous;
+                size--;
+                inserted = true;
                 break;
             }
 
@@ -98,7 +115,7 @@ public class LinkedList<T> implements List<T> {
 
     @Override
     public T getAt(int index) {
-        indexOutOfBounds(index);
+        checkIndexOutOfBounds(index);
 
         int count = 0;
         Node<T> aux = head;
@@ -113,12 +130,11 @@ public class LinkedList<T> implements List<T> {
             aux = aux.next;
         }
         return value;
-
     }
 
     @Override
     public void setAt(int index, T element) {
-        indexOutOfBounds(index);
+        checkIndexOutOfBounds(index);
 
         int count = 0;
         Node<T> aux = head;
@@ -153,17 +169,17 @@ public class LinkedList<T> implements List<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return new LinkedListIterator<>(head, this);
+        return new LinkedListIterator<>(head);
     }
 
     @Override
     public Iterator<T> reverseIterator() {
-        return new ReverseIterator(tail);
+        return new ReverseIterator<>(tail);
     }
 
-    private void indexOutOfBounds(int index) {
+    private void checkIndexOutOfBounds(int index) {
         if (index >= size || index < 0) {
-            throw new IndexOutOfBoundsException();
+            throw new IndexOutOfBoundsException(String.format("Index %d out of bounds", index));
         }
     }
 
@@ -177,13 +193,6 @@ public class LinkedList<T> implements List<T> {
     private boolean removeFirst() {
         head = head.next;
         head.previous = null;
-        size--;
-        return true;
-    }
-
-    private boolean removeInMiddle(Node<T> current) {
-        current.previous.next = current.next;
-        current.next.previous = current.previous;
         size--;
         return true;
     }
