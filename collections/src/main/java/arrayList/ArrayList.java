@@ -22,13 +22,17 @@ public class ArrayList<T> implements List<T> {
     }
 
     public boolean add(T element) {
+        checkIncreaseArray();
+
+        array[size++] = element;
+        return true;
+    }
+
+    private void checkIncreaseArray() {
         if (capacity == size) {
             capacity += 10;
             array = Arrays.copyOf(array, capacity);
         }
-
-        array[size++] = element;
-        return true;
     }
 
     public boolean remove(int index) {

@@ -58,7 +58,7 @@ public class LinkedListTest {
         // Then:
         Assertions.assertThatThrownBy(() -> linkedList.remove(-1))
                 .isInstanceOf(IndexOutOfBoundsException.class)
-                .hasMessage("index -1 out of bounds");
+                .hasMessage("Index -1 out of bounds");
     }
 
     @Test

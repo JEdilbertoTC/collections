@@ -39,12 +39,86 @@ public class LinkedList<T> implements List<T> {
 
         if (insertFirst(newNode)) return true;
 
-        if (insertInMiddle(newNode)) return true;
+        if (removeInMiddle(newNode)) return true;
 
         return insertLast(newNode);
     }
+    @Override
+    public boolean remove(int index) {
+        checkIndexOutOfBounds(index);
 
-    private boolean insertInMiddle(Node<T> newNode) {
+        if (removeLast(index)) return true;
+
+        if (removeFirst(index)) return true;
+
+        return removeInMiddle(index);
+    }
+
+    @Override
+    public T getAt(int index) {
+        checkIndexOutOfBounds(index);
+
+        int count = 0;
+        Node<T> aux = head;
+        T value = null;
+
+        while (aux != null) {
+            if (count == index) {
+                value = aux.value;
+                break;
+            }
+            count++;
+            aux = aux.next;
+        }
+        return value;
+    }
+
+    @Override
+    public boolean contains(T element) {
+        Node<T> aux = head;
+
+        while (aux != null) {
+            if (aux.value.equals(element)) {
+                return true;
+            }
+            aux = aux.next;
+        }
+        return false;
+    }
+
+    @Override
+    public void setAt(int index, T element) {
+        checkIndexOutOfBounds(index);
+
+        int count = 0;
+        Node<T> aux = head;
+
+        while (aux != null) {
+            if (count == index) {
+                aux.value = element;
+                break;
+            }
+            count++;
+            aux = aux.next;
+        }
+    }
+
+    @Override
+    public int size() {
+        return size;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new LinkedListIterator<>(head);
+    }
+
+    @Override
+    public Iterator<T> reverseIterator() {
+        return new ReverseIterator<>(tail);
+    }
+
+    private boolean removeInMiddle(Node<T> newNode) {
         if (head.next == null) {
             head.next = newNode;
             newNode.previous = head;
@@ -79,22 +153,27 @@ public class LinkedList<T> implements List<T> {
         return false;
     }
 
-    @Override
-    public boolean remove(int index) {
-        checkIndexOutOfBounds(index);
-
-        if (index == size - 1) {
-            return removeLast();
-        }
-
+    private boolean removeFirst(int index) {
         if (index == 0) {
-            return removeFirst();
+            head = head.next;
+            head.previous = null;
+            size--;
+            return true;
         }
-
-        return insertInMiddle(index);
+        return false;
     }
 
-    private boolean insertInMiddle(int index) {
+    private boolean removeLast(int index) {
+        if (index == size - 1) {
+            tail = tail.previous;
+            tail.next = null;
+            size--;
+            return true;
+        }
+        return false;
+    }
+
+    private boolean removeInMiddle(int index) {
         Node<T> current = head;
         int count = 0;
         boolean inserted = false;
@@ -113,87 +192,9 @@ public class LinkedList<T> implements List<T> {
         return inserted;
     }
 
-    @Override
-    public T getAt(int index) {
-        checkIndexOutOfBounds(index);
-
-        int count = 0;
-        Node<T> aux = head;
-        T value = null;
-
-        while (aux != null) {
-            if (count == index) {
-                value = aux.value;
-                break;
-            }
-            count++;
-            aux = aux.next;
-        }
-        return value;
-    }
-
-    @Override
-    public void setAt(int index, T element) {
-        checkIndexOutOfBounds(index);
-
-        int count = 0;
-        Node<T> aux = head;
-
-        while (aux != null) {
-            if (count == index) {
-                aux.value = element;
-                return;
-            }
-            count++;
-            aux = aux.next;
-        }
-    }
-
-    @Override
-    public boolean contains(T element) {
-        Node<T> aux = head;
-
-        while (aux != null) {
-            if (aux.value.equals(element)) {
-                return true;
-            }
-            aux = aux.next;
-        }
-        return false;
-    }
-
-    @Override
-    public int size() {
-        return size;
-    }
-
-    @Override
-    public Iterator<T> iterator() {
-        return new LinkedListIterator<>(head);
-    }
-
-    @Override
-    public Iterator<T> reverseIterator() {
-        return new ReverseIterator<>(tail);
-    }
-
     private void checkIndexOutOfBounds(int index) {
         if (index >= size || index < 0) {
             throw new IndexOutOfBoundsException(String.format("Index %d out of bounds", index));
         }
-    }
-
-    private boolean removeLast() {
-        tail = tail.previous;
-        tail.next = null;
-        size--;
-        return true;
-    }
-
-    private boolean removeFirst() {
-        head = head.next;
-        head.previous = null;
-        size--;
-        return true;
     }
 }
