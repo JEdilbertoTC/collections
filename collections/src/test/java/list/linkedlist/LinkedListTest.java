@@ -1,4 +1,4 @@
-package linkedList;
+package list.linkedlist;
 
 import iterator.Iterator;
 import org.assertj.core.api.Assertions;
@@ -320,5 +320,144 @@ public class LinkedListTest {
 
         Assertions.assertThat(iterator.hasNext()).isFalse();
         Assertions.assertThat(linkedList.size()).isEqualTo(2);
+    }
+
+    @Test
+    public void whenAListWithTwoElements_whenClear_thenClearList() {
+        // Given:
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        linkedList.add(1);
+        linkedList.add(2);
+
+        // When:
+        linkedList.clear();
+
+        // Then:
+        Assertions.assertThat(linkedList).isNotNull();
+        Assertions.assertThat(linkedList.contains(1)).isFalse();
+        Assertions.assertThat(linkedList.contains(2)).isFalse();
+        Assertions.assertThat(linkedList.size()).isEqualTo(0);
+    }
+
+    @Test
+    public void whenAListWithTwoElements_whenRemoveLastElement_thenRemoveElement() {
+        // Given:
+        LinkedList<String> linkedList = new LinkedList<>();
+        linkedList.add("1");
+        linkedList.add("2");
+
+        // When:
+        linkedList.remove("2");
+
+        // Then:
+        Assertions.assertThat(linkedList).isNotNull();
+        Assertions.assertThat(linkedList.contains("1")).isTrue();
+        Assertions.assertThat(linkedList.contains("2")).isFalse();
+        Assertions.assertThat(linkedList.getAt(0)).isEqualTo("1");
+        Assertions.assertThat(linkedList.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void whenAListWithTwoElements_whenRemoveFirstElement_thenRemoveElement() {
+        // Given:
+        LinkedList<String> linkedList = new LinkedList<>();
+        linkedList.add("1");
+        linkedList.add("2");
+
+        // When:
+        linkedList.remove("1");
+
+        // Then:
+        Assertions.assertThat(linkedList).isNotNull();
+        Assertions.assertThat(linkedList.contains("1")).isFalse();
+        Assertions.assertThat(linkedList.contains("2")).isTrue();
+        Assertions.assertThat(linkedList.getAt(0)).isEqualTo("2");
+        Assertions.assertThat(linkedList.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void whenAListWithThreeElements_whenRemoveFirstElement_thenRemoveElement() {
+        // Given:
+        LinkedList<String> linkedList = new LinkedList<>();
+        linkedList.add("1");
+        linkedList.add("2");
+        linkedList.add("3");
+
+        // When:
+        linkedList.remove("1");
+
+        // Then:
+        Assertions.assertThat(linkedList).isNotNull();
+        Assertions.assertThat(linkedList.contains("1")).isFalse();
+        Assertions.assertThat(linkedList.contains("2")).isTrue();
+        Assertions.assertThat(linkedList.contains("3")).isTrue();
+        Assertions.assertThat(linkedList.getAt(0)).isEqualTo("2");
+        Assertions.assertThat(linkedList.getAt(1)).isEqualTo("3");
+        Assertions.assertThat(linkedList.size()).isEqualTo(2);
+    }
+
+    @Test
+    public void whenAListWithThreeElements_whenRemoveLastElement_thenRemoveElement() {
+        // Given:
+        LinkedList<String> linkedList = new LinkedList<>();
+        linkedList.add("1");
+        linkedList.add("2");
+        linkedList.add("3");
+
+        // When:
+        linkedList.remove("3");
+
+        // Then:
+        Assertions.assertThat(linkedList).isNotNull();
+        Assertions.assertThat(linkedList.contains("1")).isTrue();
+        Assertions.assertThat(linkedList.contains("2")).isTrue();
+        Assertions.assertThat(linkedList.contains("3")).isFalse();
+        Assertions.assertThat(linkedList.getAt(0)).isEqualTo("1");
+        Assertions.assertThat(linkedList.getAt(1)).isEqualTo("2");
+        Assertions.assertThat(linkedList.size()).isEqualTo(2);
+    }
+
+    @Test
+    public void whenAListWithThreeElements_whenRemoveElementInMiddle_thenRemoveElement() {
+        // Given:
+        LinkedList<String> linkedList = new LinkedList<>();
+        linkedList.add("1");
+        linkedList.add("2");
+        linkedList.add("3");
+
+        // When:
+        linkedList.remove("2");
+
+        // Then:
+        Assertions.assertThat(linkedList).isNotNull();
+        Assertions.assertThat(linkedList.contains("1")).isTrue();
+        Assertions.assertThat(linkedList.contains("2")).isFalse();
+        Assertions.assertThat(linkedList.contains("3")).isTrue();
+        Assertions.assertThat(linkedList.getAt(0)).isEqualTo("1");
+        Assertions.assertThat(linkedList.getAt(1)).isEqualTo("3");
+        Assertions.assertThat(linkedList.size()).isEqualTo(2);
+    }
+
+    @Test
+    public void whenAListWithThreeElements_whenRemoveAWrongElement_thenReturnFalse() {
+        // Given:
+        LinkedList<String> linkedList = new LinkedList<>();
+        linkedList.add("1");
+        linkedList.add("2");
+        linkedList.add("3");
+
+        // When:
+        boolean removed = linkedList.remove("4");
+
+        // Then:
+        Assertions.assertThat(linkedList).isNotNull();
+        Assertions.assertThat(linkedList.contains("1")).isTrue();
+        Assertions.assertThat(linkedList.contains("2")).isTrue();
+        Assertions.assertThat(linkedList.contains("3")).isTrue();
+        Assertions.assertThat(linkedList.getAt(0)).isEqualTo("1");
+        Assertions.assertThat(linkedList.getAt(1)).isEqualTo("2");
+        Assertions.assertThat(linkedList.getAt(2)).isEqualTo("3");
+        Assertions.assertThat(removed).isFalse();
+        Assertions.assertThat(linkedList.size()).isEqualTo(3);
     }
 }

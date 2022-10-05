@@ -1,4 +1,4 @@
-package arrayList;
+package list.arraylist;
 
 import iterator.Iterator;
 import org.assertj.core.api.Assertions;
@@ -69,6 +69,7 @@ public class ArrayListTest {
 
         // When:
         // Then:
+        Assertions.assertThat(arrayList.size()).isEqualTo(0);
         Assertions.assertThatThrownBy(() -> arrayList.remove(-1))
                 .isInstanceOf(IndexOutOfBoundsException.class);
     }
@@ -84,6 +85,128 @@ public class ArrayListTest {
         boolean isRemoved = arrayList.remove(0);
         // Then:
         Assertions.assertThat(isRemoved).isTrue();
+        Assertions.assertThat(arrayList.size()).isEqualTo(0);
+    }
+
+    @Test
+    public void givenAListWithTwoElements_whenRemoveFirstElement_thenItemIsRemoved() {
+        // Given:
+        ArrayList<String> arrayList = new ArrayList<>();
+
+        arrayList.add("1");
+        arrayList.add("2");
+
+        // When:
+        boolean isRemoved = arrayList.remove("1");
+        // Then:
+        Assertions.assertThat(arrayList.size()).isEqualTo(1);
+        Assertions.assertThat(arrayList.contains("1")).isFalse();
+        Assertions.assertThat(arrayList.contains("2")).isTrue();
+        Assertions.assertThat(arrayList.getAt(0)).isEqualTo("2");
+        Assertions.assertThat(isRemoved).isTrue();
+    }
+
+    @Test
+    public void givenAListWithTwoElements_whenRemoveLastElement_thenItemIsRemoved() {
+        // Given:
+        ArrayList<String> arrayList = new ArrayList<>();
+
+        arrayList.add("1");
+        arrayList.add("2");
+
+        // When:
+        boolean isRemoved = arrayList.remove("2");
+        // Then:
+        Assertions.assertThat(arrayList.size()).isEqualTo(1);
+        Assertions.assertThat(arrayList.contains("1")).isTrue();
+        Assertions.assertThat(arrayList.contains("2")).isFalse();
+        Assertions.assertThat(arrayList.getAt(0)).isEqualTo("1");
+        Assertions.assertThat(isRemoved).isTrue();
+    }
+
+    @Test
+    public void givenAListWithThreeElements_whenRemoveLastElement_thenItemIsRemoved() {
+        // Given:
+        ArrayList<String> arrayList = new ArrayList<>();
+
+        arrayList.add("1");
+        arrayList.add("2");
+        arrayList.add("3");
+
+        // When:
+        boolean isRemoved = arrayList.remove("3");
+        // Then:
+        Assertions.assertThat(arrayList.size()).isEqualTo(2);
+        Assertions.assertThat(arrayList.contains("1")).isTrue();
+        Assertions.assertThat(arrayList.contains("2")).isTrue();
+        Assertions.assertThat(arrayList.contains("3")).isFalse();
+        Assertions.assertThat(arrayList.getAt(0)).isEqualTo("1");
+        Assertions.assertThat(arrayList.getAt(1)).isEqualTo("2");
+        Assertions.assertThat(isRemoved).isTrue();
+    }
+
+    @Test
+    public void givenAListWithThreeElements_whenRemoveFirstElement_thenItemIsRemoved() {
+        // Given:
+        ArrayList<String> arrayList = new ArrayList<>();
+
+        arrayList.add("1");
+        arrayList.add("2");
+        arrayList.add("3");
+
+        // When:
+        boolean isRemoved = arrayList.remove("1");
+        // Then:
+        Assertions.assertThat(arrayList.size()).isEqualTo(2);
+        Assertions.assertThat(arrayList.contains("1")).isFalse();
+        Assertions.assertThat(arrayList.contains("2")).isTrue();
+        Assertions.assertThat(arrayList.contains("3")).isTrue();
+        Assertions.assertThat(arrayList.getAt(0)).isEqualTo("2");
+        Assertions.assertThat(arrayList.getAt(1)).isEqualTo("3");
+        Assertions.assertThat(isRemoved).isTrue();
+    }
+
+    @Test
+    public void givenAListWithThreeElements_whenRemoveInMiddleElement_thenItemIsRemoved() {
+        // Given:
+        ArrayList<String> arrayList = new ArrayList<>();
+
+        arrayList.add("1");
+        arrayList.add("2");
+        arrayList.add("3");
+
+        // When:
+        boolean isRemoved = arrayList.remove("2");
+        // Then:
+        Assertions.assertThat(arrayList.size()).isEqualTo(2);
+        Assertions.assertThat(arrayList.contains("1")).isTrue();
+        Assertions.assertThat(arrayList.contains("2")).isFalse();
+        Assertions.assertThat(arrayList.contains("3")).isTrue();
+        Assertions.assertThat(arrayList.getAt(0)).isEqualTo("1");
+        Assertions.assertThat(arrayList.getAt(1)).isEqualTo("3");
+        Assertions.assertThat(isRemoved).isTrue();
+    }
+
+    @Test
+    public void givenAListWithThreeElements_whenRemoveWrongElement_thenFalseIsReturned() {
+        // Given:
+        ArrayList<String> arrayList = new ArrayList<>();
+
+        arrayList.add("1");
+        arrayList.add("2");
+        arrayList.add("3");
+
+        // When:
+        boolean isRemoved = arrayList.remove("4");
+        // Then:
+        Assertions.assertThat(arrayList.size()).isEqualTo(3);
+        Assertions.assertThat(arrayList.contains("1")).isTrue();
+        Assertions.assertThat(arrayList.contains("2")).isTrue();
+        Assertions.assertThat(arrayList.contains("3")).isTrue();
+        Assertions.assertThat(arrayList.getAt(0)).isEqualTo("1");
+        Assertions.assertThat(arrayList.getAt(1)).isEqualTo("2");
+        Assertions.assertThat(arrayList.getAt(2)).isEqualTo("3");
+        Assertions.assertThat(isRemoved).isFalse();
     }
 
     @Test
@@ -233,6 +356,23 @@ public class ArrayListTest {
 
         Assertions.assertThat(iterator.hasNext()).isFalse();
         Assertions.assertThat(arrayList.size()).isEqualTo(2);
+    }
+
+    @Test
+    public void whenAnArrayListWithTwoElements_whenClear_thenClearList() {
+        // Given:
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add("1");
+        arrayList.add("2");
+
+        // When:
+        arrayList.clear();
+
+        // Then:
+        Assertions.assertThat(arrayList).isNotNull();
+        Assertions.assertThat(arrayList.size()).isEqualTo(0);
+        Assertions.assertThat(arrayList.contains("1")).isFalse();
+        Assertions.assertThat(arrayList.contains("2")).isFalse();
     }
 
 }

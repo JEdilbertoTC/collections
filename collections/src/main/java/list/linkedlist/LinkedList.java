@@ -1,4 +1,4 @@
-package linkedList;
+package list.linkedlist;
 
 import iterator.Iterator;
 import list.List;
@@ -39,19 +39,38 @@ public class LinkedList<T> implements List<T> {
 
         if (insertFirst(newNode)) return true;
 
-        if (removeInMiddle(newNode)) return true;
+        if (insertInMiddle(newNode)) return true;
 
         return insertLast(newNode);
     }
+
     @Override
     public boolean remove(int index) {
         checkIndexOutOfBounds(index);
 
-        if (removeLast(index)) return true;
-
         if (removeFirst(index)) return true;
 
-        return removeInMiddle(index);
+        if (removeInMiddle(index)) return true;
+
+        return removeLast();
+    }
+
+    @Override
+    public boolean remove(T o) {
+        Node<T> aux = head;
+        int index = 0;
+        while (aux != null) {
+            if (aux.value.equals(o)) {
+                if (removeFirst(index)) return true;
+
+                if (removeInMiddle(index)) return true;
+
+                return removeLast();
+            }
+            index++;
+            aux = aux.next;
+        }
+        return false;
     }
 
     @Override
@@ -71,6 +90,20 @@ public class LinkedList<T> implements List<T> {
             aux = aux.next;
         }
         return value;
+    }
+
+    @Override
+    public void clear() {
+        Node<T> aux = head;
+        while (aux != null) {
+            Node<T> next = aux.next;
+            aux.next = null;
+            aux.previous = null;
+            aux.value = null;
+            aux = next;
+        }
+        head = tail = null;
+        size = 0;
     }
 
     @Override
@@ -118,7 +151,7 @@ public class LinkedList<T> implements List<T> {
         return new ReverseIterator<>(tail);
     }
 
-    private boolean removeInMiddle(Node<T> newNode) {
+    private boolean insertInMiddle(Node<T> newNode) {
         if (head.next == null) {
             head.next = newNode;
             newNode.previous = head;
@@ -156,21 +189,17 @@ public class LinkedList<T> implements List<T> {
     private boolean removeFirst(int index) {
         if (index == 0) {
             head = head.next;
-            head.previous = null;
             size--;
             return true;
         }
         return false;
     }
 
-    private boolean removeLast(int index) {
-        if (index == size - 1) {
-            tail = tail.previous;
-            tail.next = null;
-            size--;
-            return true;
-        }
-        return false;
+    private boolean removeLast() {
+        tail = tail.previous;
+        tail.next = null;
+        size--;
+        return true;
     }
 
     private boolean removeInMiddle(int index) {

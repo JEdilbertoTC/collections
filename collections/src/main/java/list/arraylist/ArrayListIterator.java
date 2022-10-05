@@ -1,4 +1,4 @@
-package arrayList;
+package list.arraylist;
 
 import iterator.Iterator;
 

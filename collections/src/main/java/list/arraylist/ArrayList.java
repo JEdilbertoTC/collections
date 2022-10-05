@@ -1,4 +1,4 @@
-package arrayList;
+package list.arraylist;
 
 import iterator.Iterator;
 import list.List;
@@ -39,8 +39,21 @@ public class ArrayList<T> implements List<T> {
         checkIndexOutOfBounds(index);
 
         System.arraycopy(array, index + 1, array, index, size - index - 1);
+        size--;
 
         return true;
+    }
+
+    @Override
+    public boolean remove(T element) {
+        for (int i = 0; i < size; i++) {
+            if (array[i].equals(element)) {
+                System.arraycopy(array, i + 1, array, i, size - i - 1);
+                size--;
+                return true;
+            }
+        }
+        return false;
     }
 
     private void checkIndexOutOfBounds(int index) {
@@ -53,6 +66,13 @@ public class ArrayList<T> implements List<T> {
         checkIndexOutOfBounds(index);
 
         return array[index];
+    }
+
+    @Override
+    public void clear() {
+        for (int i = 0; i < size; i++)
+            array[i] = null;
+        size = 0;
     }
 
     public void setAt(int index, T element) {

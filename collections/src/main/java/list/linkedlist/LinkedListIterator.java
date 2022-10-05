@@ -1,4 +1,4 @@
-package linkedList;
+package list.linkedlist;
 
 import iterator.Iterator;
 
