@@ -5,15 +5,17 @@ import list.linkedlist.LinkedList;
 import set.Set;
 
 public class HashSet<T> implements Set<T> {
-    private static final int MAXIMUM_LENGTH_PER_BUCKET = 5;
-    private LinkedList<T>[] buckets;
-    private int size;
-    private int numberOfBuckets;
+    protected static final int MAXIMUM_LENGTH_PER_BUCKET = 5;
+    protected LinkedList<T>[] buckets;
+    protected LinkedList<T> listOfElements;
+    protected int size;
+    protected int numberOfBuckets;
 
     public HashSet() {
         numberOfBuckets = 3;
         size = 0;
         this.buckets = generateBuckets();
+        listOfElements = new LinkedList<>();
     }
 
     @Override
@@ -46,6 +48,7 @@ public class HashSet<T> implements Set<T> {
         }
 
         chosenBucket.add(element);
+        listOfElements.add(element);
         size++;
         return true;
     }
@@ -59,6 +62,7 @@ public class HashSet<T> implements Set<T> {
         }
 
         chosenBucket.remove(element);
+        listOfElements.remove(element);
         size--;
         return true;
     }
@@ -68,6 +72,7 @@ public class HashSet<T> implements Set<T> {
         for (int i = 0; i < numberOfBuckets; i++) {
             buckets[i].clear();
         }
+        listOfElements.clear();
 
         numberOfBuckets = 3;
         buckets = generateBuckets();
@@ -75,30 +80,36 @@ public class HashSet<T> implements Set<T> {
         size = 0;
     }
 
-    private LinkedList<T>[] generateBuckets() {
+    @Override
+    public Iterator<T> iterator() {
+        return listOfElements.iterator();
+    }
+
+    protected LinkedList<T>[] generateBuckets() {
         @SuppressWarnings("unchecked")
-        LinkedList<T>[] buckets = new LinkedList<>[numberOfBuckets];
+        LinkedList<T>[] buckets = new LinkedList[numberOfBuckets];
         for (int i = 0; i < buckets.length; i++) {
             buckets[i] = new LinkedList<>();
         }
         return buckets;
     }
 
-    private LinkedList<T> chooseBucket(T element) {
+    protected LinkedList<T> chooseBucket(T element) {
         int hashCode = element.hashCode();
         int chosenBucket = Math.floorMod(hashCode, buckets.length);
         return buckets[chosenBucket];
     }
 
-    private LinkedList<T> chooseBucket(T element, LinkedList<T>[] buckets) {
+    protected LinkedList<T> chooseBucket(T element, LinkedList<T>[] buckets) {
         int hashCode = element.hashCode();
         int chosenBucket = Math.floorMod(hashCode, buckets.length);
         return buckets[chosenBucket];
     }
 
-    private void distributeInBuckets() {
+    protected void distributeInBuckets() {
         numberOfBuckets *= 2;
         LinkedList<T>[] newBuckets = generateBuckets();
+        listOfElements = new LinkedList<>();
 
         for (LinkedList<T> bucket : buckets) {
             Iterator<T> iterator = bucket.iterator();
@@ -106,6 +117,7 @@ public class HashSet<T> implements Set<T> {
                 T element = iterator.next();
                 LinkedList<T> chosenBucket = chooseBucket(element, newBuckets);
                 chosenBucket.add(element);
+                listOfElements.add(element);
             }
         }
         buckets = newBuckets;

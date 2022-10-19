@@ -1,5 +1,7 @@
 package set;
 
+import iterator.Iterator;
+
 public interface Set<T> {
     int size();
 
@@ -12,4 +14,6 @@ public interface Set<T> {
     boolean remove(T o);
 
     void clear();
+
+    Iterator<T> iterator();
 }

@@ -1,5 +1,6 @@
 package set.hashset;
 
+import iterator.Iterator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -221,5 +222,49 @@ public class HashSetTest {
         // Then:
         Assertions.assertThat(hashSet.size()).isEqualTo(1);
         Assertions.assertThat(hashSet.isEmpty()).isFalse();
+    }
+
+    @Test
+    public void givenAnHashSetWithOne_whenIterator_thenIteratorIsReturned() {
+        // Given:
+        HashSet<String> hashSet = new HashSet<>();
+        hashSet.add("element1");
+
+        // When:
+        Iterator<String> iterator = hashSet.iterator();
+
+        // Then:
+        Assertions.assertThat(hashSet.size()).isEqualTo(1);
+        Assertions.assertThat(hashSet.isEmpty()).isFalse();
+        Assertions.assertThat(iterator).isNotNull();
+        Assertions.assertThat(iterator.hasNext()).isTrue();
+        Assertions.assertThat(iterator.next()).isEqualTo("element1");
+    }
+
+    @Test
+    public void givenAnHashSetWithOneHundredElements_whenIterator_thenIteratorIsReturned() {
+        // Given:
+        HashSet<String> hashSet = new HashSet<>();
+        for (int i = 0; i < 100; i++) {
+            hashSet.add("element" + i);
+        }
+
+        // When:
+        Iterator<String> iterator = hashSet.iterator();
+
+        // Then:
+        Assertions.assertThat(hashSet.size()).isEqualTo(100);
+        Assertions.assertThat(hashSet.isEmpty()).isFalse();
+        Assertions.assertThat(iterator).isNotNull();
+        int count = 0;
+        int index = 0;
+        while (iterator.hasNext()) {
+            String s = "element" + index;
+            if (iterator.next().equals(s)) {
+                count++;
+            }
+            index++;
+        }
+        Assertions.assertThat(count).isNotEqualTo(hashSet.size());
     }
 }
