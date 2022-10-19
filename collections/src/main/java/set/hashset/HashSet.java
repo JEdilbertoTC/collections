@@ -1,12 +1,12 @@
 package set.hashset;
 
 import iterator.Iterator;
-import list.arraylist.ArrayList;
 import list.linkedlist.LinkedList;
 import set.Set;
 
 public class HashSet<T> implements Set<T> {
-    private ArrayList<LinkedList<T>> buckets;
+    private static final int MAXIMUM_LENGTH_PER_BUCKET = 5;
+    private LinkedList<T>[] buckets;
     private int size;
     private int numberOfBuckets;
 
@@ -35,10 +35,9 @@ public class HashSet<T> implements Set<T> {
 
     @Override
     public boolean add(T element) {
-        int MAXIMUM_LENGTH = 5;
         LinkedList<T> chosenBucket = chooseBucket(element);
 
-        if (chosenBucket.size() >= MAXIMUM_LENGTH) {
+        if (chosenBucket.size() >= MAXIMUM_LENGTH_PER_BUCKET) {
             distributeInBuckets();
         }
 
@@ -67,7 +66,7 @@ public class HashSet<T> implements Set<T> {
     @Override
     public void clear() {
         for (int i = 0; i < numberOfBuckets; i++) {
-            buckets.getAt(i).clear();
+            buckets[i].clear();
         }
 
         numberOfBuckets = 3;
@@ -76,32 +75,33 @@ public class HashSet<T> implements Set<T> {
         size = 0;
     }
 
-    private ArrayList<LinkedList<T>> generateBuckets() {
-        ArrayList<LinkedList<T>> buckets = new ArrayList<>();
-        for (int i = 0; i < numberOfBuckets; i++) {
-            buckets.add(new LinkedList<>());
+    private LinkedList<T>[] generateBuckets() {
+        @SuppressWarnings("unchecked")
+        LinkedList<T>[] buckets = new LinkedList<>[numberOfBuckets];
+        for (int i = 0; i < buckets.length; i++) {
+            buckets[i] = new LinkedList<>();
         }
         return buckets;
     }
 
     private LinkedList<T> chooseBucket(T element) {
         int hashCode = element.hashCode();
-        int chosenBucket = Math.floorMod(hashCode, buckets.size());
-        return buckets.getAt(chosenBucket);
+        int chosenBucket = Math.floorMod(hashCode, buckets.length);
+        return buckets[chosenBucket];
     }
 
-    private LinkedList<T> chooseBucket(T element, ArrayList<LinkedList<T>> buckets) {
+    private LinkedList<T> chooseBucket(T element, LinkedList<T>[] buckets) {
         int hashCode = element.hashCode();
-        int chosenBucket = Math.floorMod(hashCode, buckets.size());
-        return buckets.getAt(chosenBucket);
+        int chosenBucket = Math.floorMod(hashCode, buckets.length);
+        return buckets[chosenBucket];
     }
 
     private void distributeInBuckets() {
-        numberOfBuckets += 3;
-        ArrayList<LinkedList<T>> newBuckets = generateBuckets();
+        numberOfBuckets *= 2;
+        LinkedList<T>[] newBuckets = generateBuckets();
 
-        for (int i = 0; i < buckets.size(); i++) {
-            Iterator<T> iterator = buckets.getAt(i).iterator();
+        for (LinkedList<T> bucket : buckets) {
+            Iterator<T> iterator = bucket.iterator();
             while (iterator.hasNext()) {
                 T element = iterator.next();
                 LinkedList<T> chosenBucket = chooseBucket(element, newBuckets);
